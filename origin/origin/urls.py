@@ -24,5 +24,6 @@ router.register('bonds', BondViewSet, base_name='bond')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('auth/', include('dj_rest_auth.urls')),
     path('admin/', admin.site.urls),
 ]
