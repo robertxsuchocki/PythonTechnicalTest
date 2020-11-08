@@ -55,3 +55,22 @@ We would also like to be able to add a filter such as:
 `GET /bonds/?legal_name=BNPPARIBAS`
 
 to reduce down the results.
+
+#### Implementation details
+
+API was created with Django & Django Rest Framework as well as [django-filter](https://github.com/carltongibson/django-filter) (for parameter filtering) and [dj-rest-auth](https://github.com/jazzband/dj-rest-auth) (for authentication endpoints)
+
+- Admin user can be created with `python manage.py createsuperuser` and all other users should be created via admin panel
+- Token and session authentication are enabled:
+  - Session authentication can be used with default REST GUI: head to `/auth/login/`, make a POST request and all following requests will be using this session
+  - Token authentication can be used with `curl` as follows:
+    ```
+    curl --header "Content-Type: application/json" --request POST --data '{"username": "username", "password": "password"}' http://127.0.0.1:8000/auth/login/
+    >>> {"key":"40484c9649b9376d34fa04aad31bfbd183f19f24"}
+    curl --header "Authorization: Token 40484c9649b9376d34fa04aad31bfbd183f19f24" --request GET http://127.0.0.1:8000/bonds/
+    >>> []
+    ```
+- Tests cover endpoints for API and authentication, as well as validation checks for model, run:
+    ```
+    python manage.py tests
+    ```

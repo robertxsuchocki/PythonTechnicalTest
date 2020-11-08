@@ -4,6 +4,14 @@ from django.db import models
 
 
 class Bond(models.Model):
+    """
+    Bond model
+
+    All fields except user and legal_name are received from the user
+    user field is used to filter out displayed objects and added automatically by a viewset
+    legal_name is received from https://www.gleif.org/en/lei-data/gleif-lei-look-up-api based on lei field
+    """
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     isin = models.CharField(max_length=12, validators=[validators.RegexValidator(r'^[a-zA-Z0-9]*$')])
     size = models.IntegerField()
